@@ -38,8 +38,9 @@ void AMyCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
     PlayerInputComponent->BindAxis("MoveForward", this, &AMyCharacter::MoveForward);
     PlayerInputComponent->BindAxis("MoveRight", this, &AMyCharacter::MoveRight);
-    PlayerInputComponent->BindAxis("LookUp", this, &AMyCharacter::LookUp);
-    PlayerInputComponent->BindAxis("TurnAround", this, &AMyCharacter::TurnAround);
+    PlayerInputComponent->BindAxis("LookUp", this, &AMyCharacter::AddControllerPitchInput);
+    PlayerInputComponent->BindAxis("TurnAround", this, &AMyCharacter::AddControllerYawInput);
+    PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &AMyCharacter::Jump);
 }
 
 void AMyCharacter::MoveForward(float value)
@@ -51,14 +52,3 @@ void AMyCharacter::MoveRight(float value)
 {
     AddMovementInput(GetActorRightVector(), value);
 }
-
-void AMyCharacter::LookUp(float value)
-{
-    AddControllerPitchInput(value);
-}
-
-void AMyCharacter::TurnAround(float value)
-{
-    AddControllerYawInput(value);
-}
-

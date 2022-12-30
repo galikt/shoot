@@ -38,6 +38,4 @@ public:
 private:
 	void MoveForward(float value);
 	void MoveRight(float value);
-    void LookUp(float value);
-    void TurnAround(float value);
 };
