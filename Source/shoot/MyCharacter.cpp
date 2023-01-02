@@ -4,6 +4,8 @@
 #include "MyCharacter.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "GameFramework/PawnMovementComponent.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
 // Sets default values
 AMyCharacter::AMyCharacter()
@@ -41,14 +43,39 @@ void AMyCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
     PlayerInputComponent->BindAxis("LookUp", this, &AMyCharacter::AddControllerPitchInput);
     PlayerInputComponent->BindAxis("TurnAround", this, &AMyCharacter::AddControllerYawInput);
     PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &AMyCharacter::Jump);
+    PlayerInputComponent->BindAction("Accel", IE_Pressed, this, &AMyCharacter::OnShiftKey);
+    PlayerInputComponent->BindAction("Accel", IE_Released, this, &AMyCharacter::OffShiftKey);
 }
 
 void AMyCharacter::MoveForward(float value)
 {
+    UCharacterMovementComponent *movement = Cast<UCharacterMovementComponent>(GetMovementComponent());
+
+    if ((value > 0.0f) && ShiftKey && !movement->IsFalling())
+    {
+        movement->MaxWalkSpeed = 900;
+        Accel = true;
+    }
+    else
+    {
+        movement->MaxWalkSpeed = 600;
+        Accel = false;
+    }
+
     AddMovementInput(GetActorForwardVector(), value);
 }
 
 void AMyCharacter::MoveRight(float value)
 {
     AddMovementInput(GetActorRightVector(), value);
+}
+
+void AMyCharacter::OnShiftKey()
+{
+    ShiftKey = true;
+}
+
+void AMyCharacter::OffShiftKey()
+{
+    ShiftKey = false;
 }

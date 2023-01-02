@@ -24,6 +24,9 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
     USpringArmComponent *Arm;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+	bool Accel = false;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -36,6 +39,11 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 private:
+    bool ShiftKey = false;
+
 	void MoveForward(float value);
 	void MoveRight(float value);
+    void OnShiftKey();
+    void OffShiftKey();
+
 };
