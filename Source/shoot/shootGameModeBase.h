@@ -12,5 +12,5 @@
 UCLASS()
 class SHOOT_API AshootGameModeBase : public AGameModeBase
 {
-    GENERATED_BODY()
+	GENERATED_BODY()
 };

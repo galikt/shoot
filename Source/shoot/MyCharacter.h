@@ -8,6 +8,8 @@
 
 class UCameraComponent;
 class USpringArmComponent;
+class USTUHealthComponent;
+class UTextRenderComponent;
 
 UCLASS()
 class SHOOT_API AMyCharacter : public ACharacter
@@ -22,10 +24,25 @@ public:
 	UCameraComponent *Camera;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
-    USpringArmComponent *Arm;
+	USTUHealthComponent *HealthComponent;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+	UTextRenderComponent *HealthTextComponent;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+	USpringArmComponent *Arm;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 	bool Accel = false;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+	UAnimMontage *DeathAnimMontage;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Movement")
+	FVector2D LandedDamageVelocity{900.0f, 1200.0f};
+
+	UPROPERTY(EditDefaultsOnly, Category = "Movement")
+	FVector2D LandedDamage{10.0f, 100.0f};
 
 protected:
 	// Called when the game starts or when spawned
@@ -39,11 +56,15 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 private:
-    bool ShiftKey = false;
+	bool ShiftKey = false;
 
 	void MoveForward(float value);
 	void MoveRight(float value);
-    void OnShiftKey();
-    void OffShiftKey();
+	void OnShiftKey();
+	void OffShiftKey();
+	void OnDeath();
+	void OnHealthChange(float value);
 
+	UFUNCTION()
+	void OnGroundedLanded(const FHitResult& Hit);
 };
