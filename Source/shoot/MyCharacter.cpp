@@ -9,6 +9,7 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Components/TextRenderComponent.h"
 #include "GameFrameWork/Controller.h"
+#include "STUBaseWeapon.h"
 
 // Sets default values
 AMyCharacter::AMyCharacter()
@@ -42,8 +43,9 @@ void AMyCharacter::BeginPlay()
 	HealthComponent->OnHealthChange.AddUObject(this, &AMyCharacter::OnHealthChange);
 	LandedDelegate.AddDynamic(this, &AMyCharacter::OnGroundedLanded);
 
-
 	OnHealthChange(HealthComponent->GetHealth());
+
+	SpawnWeapon();
 }
 
 // Called every frame
@@ -117,6 +119,20 @@ void AMyCharacter::OnDeath()
 void AMyCharacter::OnHealthChange(float value)
 {
 	HealthTextComponent->SetText(FText::FromString(FString::Printf(TEXT("%.0f"), value)));
+}
+
+void AMyCharacter::SpawnWeapon()
+{
+	if (!GetWorld())
+		return;
+
+	const auto Weapon = GetWorld()->SpawnActor<ASTUBaseWeapon>(WeaponClass);
+	if (Weapon)
+	{
+		FAttachmentTransformRules AttachmentRules(EAttachmentRule::SnapToTarget, false);
+		Weapon->AttachToComponent(GetMesh(), AttachmentRules, "WeaponSocket");
+		UE_LOG(LogTemp, Warning, TEXT("RUN"))
+	}
 }
 
 void AMyCharacter::OnGroundedLanded(const FHitResult &Hit)
