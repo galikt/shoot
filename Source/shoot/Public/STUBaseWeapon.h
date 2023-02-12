@@ -16,10 +16,11 @@ class SHOOT_API ASTUBaseWeapon : public AActor
 public:	
 	ASTUBaseWeapon();
 
+	virtual void Fire();
+
 protected:
 	virtual void BeginPlay() override;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Weapon")
 	USkeletalMeshComponent *WeaponMesh;
-
 };

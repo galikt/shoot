@@ -10,7 +10,7 @@ class UCameraComponent;
 class USpringArmComponent;
 class USTUHealthComponent;
 class UTextRenderComponent;
-class ASTUBaseWeapon;
+class USTUWeaponComponent;
 
 UCLASS()
 class SHOOT_API AMyCharacter : public ACharacter
@@ -26,6 +26,9 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 	USTUHealthComponent *HealthComponent;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+	USTUWeaponComponent *STUWeaponComponent;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 	UTextRenderComponent *HealthTextComponent;
@@ -44,9 +47,6 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Movement")
 	FVector2D LandedDamage{10.0f, 100.0f};
-
-	UPROPERTY(EditDefaultsOnly, Category = "Weapon")
-	TSubclassOf<ASTUBaseWeapon> WeaponClass;
 
 protected:
 	// Called when the game starts or when spawned
@@ -68,7 +68,6 @@ private:
 	void OffShiftKey();
 	void OnDeath();
 	void OnHealthChange(float value);
-	void SpawnWeapon();
 
 	UFUNCTION()
 	void OnGroundedLanded(const FHitResult& Hit);

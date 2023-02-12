@@ -19,3 +19,7 @@ void ASTUBaseWeapon::BeginPlay()
 	Super::BeginPlay();
 }
 
+void ASTUBaseWeapon::Fire()
+{
+
+}

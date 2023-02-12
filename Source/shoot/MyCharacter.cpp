@@ -9,7 +9,7 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Components/TextRenderComponent.h"
 #include "GameFrameWork/Controller.h"
-#include "STUBaseWeapon.h"
+#include "STUWeaponComponent.h"
 
 // Sets default values
 AMyCharacter::AMyCharacter()
@@ -20,6 +20,7 @@ AMyCharacter::AMyCharacter()
 	Arm = CreateDefaultSubobject<USpringArmComponent>("Arm");
 	Arm->SetupAttachment(GetRootComponent());
 	Arm->bUsePawnControlRotation = true;
+	Arm->SocketOffset = FVector(0.0f, 100.0f, 80.0f);
 
 	Camera = CreateDefaultSubobject<UCameraComponent>("Camera");
 	Camera->SetupAttachment(Arm);
@@ -27,9 +28,13 @@ AMyCharacter::AMyCharacter()
 	HealthComponent = CreateDefaultSubobject<USTUHealthComponent>("Health");
 	check(HealthComponent);
 
+	STUWeaponComponent = CreateDefaultSubobject<USTUWeaponComponent>("Weapon");
+	check(STUWeaponComponent);
+
 	HealthTextComponent = CreateDefaultSubobject<UTextRenderComponent>("HealthText");
 	check(HealthTextComponent);
 	HealthTextComponent->SetupAttachment(GetRootComponent());
+	HealthTextComponent->SetOwnerNoSee(true);
 
 	check(GetCharacterMovement());
 }
@@ -44,8 +49,6 @@ void AMyCharacter::BeginPlay()
 	LandedDelegate.AddDynamic(this, &AMyCharacter::OnGroundedLanded);
 
 	OnHealthChange(HealthComponent->GetHealth());
-
-	SpawnWeapon();
 }
 
 // Called every frame
@@ -65,6 +68,7 @@ void AMyCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &AMyCharacter::Jump);
 	PlayerInputComponent->BindAction("Accel", IE_Pressed, this, &AMyCharacter::OnShiftKey);
 	PlayerInputComponent->BindAction("Accel", IE_Released, this, &AMyCharacter::OffShiftKey);
+	PlayerInputComponent->BindAction("Fire", IE_Pressed, STUWeaponComponent, &USTUWeaponComponent::Fire);
 }
 
 void AMyCharacter::MoveForward(float value)
@@ -119,20 +123,6 @@ void AMyCharacter::OnDeath()
 void AMyCharacter::OnHealthChange(float value)
 {
 	HealthTextComponent->SetText(FText::FromString(FString::Printf(TEXT("%.0f"), value)));
-}
-
-void AMyCharacter::SpawnWeapon()
-{
-	if (!GetWorld())
-		return;
-
-	const auto Weapon = GetWorld()->SpawnActor<ASTUBaseWeapon>(WeaponClass);
-	if (Weapon)
-	{
-		FAttachmentTransformRules AttachmentRules(EAttachmentRule::SnapToTarget, false);
-		Weapon->AttachToComponent(GetMesh(), AttachmentRules, "WeaponSocket");
-		UE_LOG(LogTemp, Warning, TEXT("RUN"))
-	}
 }
 
 void AMyCharacter::OnGroundedLanded(const FHitResult &Hit)
