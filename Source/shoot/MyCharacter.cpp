@@ -10,6 +10,7 @@
 #include "Components/TextRenderComponent.h"
 #include "GameFrameWork/Controller.h"
 #include "STUWeaponComponent.h"
+#include "Components/CapsuleComponent.h"
 
 // Sets default values
 AMyCharacter::AMyCharacter()
@@ -118,6 +119,8 @@ void AMyCharacter::OnDeath()
 	{
 		Controller->ChangeState(NAME_Spectating);
 	}
+
+	GetCapsuleComponent()->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Ignore);
 }
 
 void AMyCharacter::OnHealthChange(float value)

@@ -40,4 +40,5 @@ void USTUWeaponComponent::SpawnWeapon()
 	FAttachmentTransformRules AttachmentRules(EAttachmentRule::SnapToTarget, false);
 	CurrentWeapon->AttachToComponent(character->GetMesh(), AttachmentRules, WeaponAtachPointName);
 	UE_LOG(LogTemp, Warning, TEXT("RUN"))
+	CurrentWeapon->SetOwner(GetOwner());
 }
