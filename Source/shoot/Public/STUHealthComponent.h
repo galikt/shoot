@@ -44,8 +44,11 @@ public:
 	inline float GetHealth() const;
 	inline void SetHealth(float value);
 
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Health")
 	inline bool IsDead() const;
+
+	UFUNCTION(BlueprintCallable, Category = "Health")
+	inline float GetHealthPercent();
 
 	FOnDeath OnDeath;
 	FOnHealthChange OnHealthChange;
@@ -82,4 +85,9 @@ void USTUHealthComponent::SetHealth(float value)
 bool USTUHealthComponent::IsDead() const
 {
 	return FMath::IsNearlyZero(Health);
+}
+
+inline float USTUHealthComponent::GetHealthPercent()
+{
+	return Health / MaxHealth;
 }

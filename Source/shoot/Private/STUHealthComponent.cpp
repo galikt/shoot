@@ -20,6 +20,8 @@ void USTUHealthComponent::BeginPlay()
 	{
 		owner->OnTakeAnyDamage.AddDynamic(this, &USTUHealthComponent::OnTakeAnyDamageHandle);
 	}
+
+	check(MaxHealth > 0.0f);
  }
 
 void USTUHealthComponent::OnTakeAnyDamageHandle(AActor *DamagedActor, float Damage, const UDamageType *DamageType, AController *InstigatedBy, AActor *DamageCauser)
