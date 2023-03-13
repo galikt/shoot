@@ -17,6 +17,28 @@ void USTUWeaponComponent::Fire()
 	CurrentWeapon->Fire();
 }
 
+bool USTUWeaponComponent::GetWeaponUIData(FWeaponUIData &data) const
+{
+	if (CurrentWeapon)
+	{
+		data = CurrentWeapon->GetWeaponUIData();
+		return true;
+	}
+
+	return false;
+}
+
+bool USTUWeaponComponent::GetAmo(FWeaponAmo &Amo) const
+{
+	if (CurrentWeapon)
+	{
+		Amo = CurrentWeapon->GetAmo();
+		return true;
+	}
+
+	return false;
+}
+
 void USTUWeaponComponent::BeginPlay()
 {
 	Super::BeginPlay();

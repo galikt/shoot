@@ -110,7 +110,11 @@ void ASTUBaseWeapon::MakeHit(FHitResult& HitResult, const FVector &TraceStart, c
 
 void ASTUBaseWeapon::Fire()
 {
-	MakeShot();
+	if (Amo.Bullets > 0)
+	{
+		MakeShot();
+		Amo.Bullets -= 1;
+	}
 }
 
 void ASTUBaseWeapon::MakeDamage(const FHitResult& HitResult)
