@@ -32,3 +32,17 @@ bool USTUPlayerHUDWidget::GetWeaponAmo(FWeaponAmo &Amo)
 
 	return WeaponComponent->GetAmo(Amo);
 }
+
+bool USTUPlayerHUDWidget::IsAllive()
+{
+	const auto Health = GetComponent<USTUHealthComponent>();
+
+	return Health && !Health->IsDead();
+}
+
+bool USTUPlayerHUDWidget::IsSpectator()
+{
+	const auto Controller = GetOwningPlayer();
+
+	return Controller && Controller->GetStateName() == NAME_Spectating;
+}

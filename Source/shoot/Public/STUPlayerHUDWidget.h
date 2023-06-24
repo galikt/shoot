@@ -22,6 +22,12 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "UI")
 	bool GetWeaponAmo(FWeaponAmo &Amo);
 
+	UFUNCTION(BlueprintCallable, Category = "UI")
+	bool IsAllive();
+
+	UFUNCTION(BlueprintCallable, Category = "UI")
+	bool IsSpectator();
+
 	template<typename T>
 	T* GetComponent();
 };

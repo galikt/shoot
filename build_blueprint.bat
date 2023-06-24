@@ -1,0 +1,1 @@
+"C:\Program Files\Epic Games\UE_4.27\Engine\Binaries\Win64\UE4Editor-Cmd.exe" "c:\Users\Vladimir\Documents\Unreal Projects\shoot\shoot.uproject" -run=CompileAllBlueprints -ShowResultsOnly
